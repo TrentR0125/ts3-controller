@@ -25,6 +25,7 @@
     "@nestjs/jwt": "^11.0.0",
     "@nestjs/platform-express": "^11.1.6",
     "@nestjs/typeorm": "^11.0.0",
+    "@nestjs/websockets": "^11.1.6",
     "axios": "^1.12.2",
     "bcrypt": "^6.0.0",
     "crypto": "^1.0.1",
@@ -32,6 +33,7 @@
     "passport-jwt": "^4.0.1",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1",
+    "socket.io": "^4.8.1",
     "swagger": "^0.7.5",
     "ts3-nodejs-library": "^3.5.1",
     "typeorm": "^0.3.27"
