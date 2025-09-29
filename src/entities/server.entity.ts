@@ -19,4 +19,16 @@ export class Server {
 
     @Column({ type: 'varchar' })
     queryPassword: string;
+
+    @Column({ type: 'datetime', default: () => 'CURRENT_TIMESTAMP' })
+    createdAt: Date;
+
+    @Column({ type: 'datetime', nullable: true })
+    deletedAt?: boolean;
+
+    @Column({ type: 'datetime', default: false })
+    isDeleted: boolean;
+
+    @Column({ type: 'boolean', default: false })
+    fivemWhitelistEnabled: boolean;
 }
