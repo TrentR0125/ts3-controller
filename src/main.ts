@@ -10,7 +10,7 @@ async function bootstrap() {
   const config = app.get<ConfigService>(ConfigService);
 
   SwaggerConfigSetup.setup(app);
-  await TsClient.connect();
+  await TsClient.connect(config);
 
   await app.listen(process.env.PORT ?? 3000);
 }
