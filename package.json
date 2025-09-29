@@ -33,6 +33,7 @@
     "axios": "^1.12.2",
     "bcrypt": "^6.0.0",
     "crypto": "^1.0.1",
+    "express-basic-auth": "^1.2.1",
     "jwt-decode": "^4.0.0",
     "mysql": "^2.18.1",
     "passport-jwt": "^4.0.1",
