@@ -16,7 +16,6 @@ export async function hash(str: string, saltRounds: number = 10): Promise<string
     return await bcrypt.hash(str, saltRounds);
 }
 
-
 /**
  * Compare a string against a bcrypt hash
  */
