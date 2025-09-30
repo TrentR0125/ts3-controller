@@ -2,8 +2,8 @@ import { ExecutionContext, Injectable, UnauthorizedException } from "@nestjs/com
 import { ConfigService } from "@nestjs/config";
 import { Reflector } from "@nestjs/core";
 import { AuthGuard } from "@nestjs/passport";
+import { ApiKeySettingsOptions } from "src/common/interfaces/api-key-settings.interface";
 import { API_KEY_SETTINGS, } from "src/decorators/api-key.decorator";
-import { ApiKeySettingsOptions } from "src/models/interfaces/api-key-settings.interface";
 
 @Injectable()
 export class ApiKeyGuard extends AuthGuard('api-key') {

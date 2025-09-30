@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { LogLevel } from "src/models/enums/log-level.enum";
+import { LogLevel } from "src/common/enums/log-level.enum";
 
 export class SearchLogsDto {
     @ApiProperty({ description: 'The source of the log event', required: false })

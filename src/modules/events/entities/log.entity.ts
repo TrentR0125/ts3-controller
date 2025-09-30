@@ -1,4 +1,4 @@
-import { LogLevel } from "src/models/enums/log-level.enum";
+import { LogLevel } from "src/common/enums/log-level.enum";
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()

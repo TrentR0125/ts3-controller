@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { ClientModule } from './modules/client/client.module';
+import { UserModule } from './modules/user/user.module';
 import { CqrsModule } from '@nestjs/cqrs';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
@@ -29,7 +29,7 @@ import { JwtGuard } from './guards/jwt-auth.guard';
         synchronize: config.get<string>("API_ENV") == "development"
       }),
     }),
-    ClientModule
+    UserModule
   ],
   controllers: [AppController],
   providers: [

@@ -3,11 +3,11 @@ import { ConfigModule, ConfigService } from "@nestjs/config";
 import { JwtModule } from "@nestjs/jwt";
 import { PassportModule } from "@nestjs/passport";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { AuthController } from "src/controllers/auth/auth.controller";
-import { ENTITIES } from "src/models/classes/entites.class";
-import { AuthService } from "src/services/auth.service";
-import { ApiKeyStrategy } from "src/strategies/api-key.strategy";
-import { JwtStrategy } from "src/strategies/jwt.strategy";
+import { Log } from "src/modules/events/entities/log.entity";
+import { AuthController } from "src/modules/auth/controllers/auth.controller";
+import { AuthService } from "src/modules/auth/services/auth.service";
+import { ApiKeyStrategy } from "src/modules/auth/strategies/api-key.strategy";
+import { JwtStrategy } from "src/modules/auth/strategies/jwt.strategy";
 
 @Module({
     imports: [
@@ -19,8 +19,7 @@ import { JwtStrategy } from "src/strategies/jwt.strategy";
                 signOptions: { expiresIn: '12h' }
             })
         }),
-        TypeOrmModule.forFeature(ENTITIES),
-        PassportModule.register({ session: false })
+        PassportModule.register({ defaultStrategy: "jwt", session: false })
     ],
     controllers: [AuthController],
     providers: [
