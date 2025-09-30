@@ -1,2 +1,3 @@
+import { AddLogHandler } from "./add-log.handler";
 
-export const EventsCommandHandlers = [];
+export const EventsCommandHandlers = [AddLogHandler];

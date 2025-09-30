@@ -9,6 +9,7 @@ export class SwaggerConfigSetup {
         const config = new DocumentBuilder()
             .setTitle("TS3 Controller API")
             .setVersion("v1")
+            .addApiKey({ name: "x-tsc-apikey", type: "apiKey", in: "header" }, "x-tsc-apikey")
             .addBearerAuth()
             .build();
             

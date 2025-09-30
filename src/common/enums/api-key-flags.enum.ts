@@ -1,4 +1,5 @@
 export enum ApiKeyFlags {
     FIVEM = 'FIVEM',
-    PORTAL = 'PORTAL'
+    PORTAL = 'PORTAL',
+    TEAMSPEAK = "TEAMSPEAK"
 }

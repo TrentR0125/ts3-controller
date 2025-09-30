@@ -1,12 +1,11 @@
 import { Controller, Get, Param } from "@nestjs/common";
 import { User } from "../entities/user.entity";
-import { ApiOkResponse, ApiOperation, ApiProperty, ApiTags } from "@nestjs/swagger";
-import { ApiKeySettings } from "src/decorators/api-key.decorator";
-import { ApiKeyFlags } from "src/common/enums/api-key-flags.enum";
+import { ApiOkResponse, ApiOperation, ApiProperty, ApiSecurity, ApiTags } from "@nestjs/swagger";
 import { QueryBus } from "@nestjs/cqrs";
 import { GetUserQuery } from "../queries/get-user.query";
 
 @ApiTags("User")
+@ApiSecurity("x-tsc-apikey")
 @Controller("user")
 export class UserController {
     constructor(
