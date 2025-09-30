@@ -9,6 +9,7 @@ export class SwaggerConfigSetup {
         const config = new DocumentBuilder()
             .setTitle("TS3 Controller API")
             .setVersion("v1")
+            .addBearerAuth()
             .build();
             
         const document = SwaggerModule.createDocument(app, config);
