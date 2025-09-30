@@ -1,6 +1,4 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { UserModule } from './modules/user/user.module';
 import { CqrsModule } from '@nestjs/cqrs';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -8,6 +6,9 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_GUARD } from '@nestjs/core';
 import { ApiKeyGuard } from './guards/api-key.guard';
 import { JwtGuard } from './guards/jwt-auth.guard';
+import { AuthModule } from './modules/auth/auth.module';
+import { EventsModule } from './modules/events/events.module';
+import { TeamSpeakModule } from './modules/teamspeak/teamspeak.module';
 
 @Module({
   imports: [
@@ -24,16 +25,17 @@ import { JwtGuard } from './guards/jwt-auth.guard';
         password: config.get<string>("MYSQL_PASS"),
         database: config.get<string>("MYSQL_DATABASE"),
         entities: [__dirname + '/**/*.entity{.ts,.js}'],
-        // migrations: [__dirname + '/**/*.migartions{.ts,.js}'], // here just in-case we use migrations in the future
+        // migrations: [__dirname + '/**/*.migrations{.ts,.js}'], // here just in-case we use migrations in the future
         autoLoadEntities: true,
         synchronize: config.get<string>("API_ENV") == "development"
       }),
     }),
-    UserModule
+    UserModule,
+    AuthModule,
+    EventsModule,
+    TeamSpeakModule
   ],
-  controllers: [AppController],
   providers: [
-    AppService,
     { provide: APP_GUARD, useClass: ApiKeyGuard },
     { provide: APP_GUARD, useClass: JwtGuard },
   ],

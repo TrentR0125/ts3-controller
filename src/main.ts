@@ -1,9 +1,9 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { TsClient } from './classes/teamspeak/ts-client';
 import { SwaggerModule } from '@nestjs/swagger';
 import { ConfigService } from '@nestjs/config';
-import { SwaggerConfigSetup } from './classes/configurations/swagger.config';
+import { TsClient } from './common/classes/ts-client';
+import { SwaggerConfigSetup } from './common/configurations/swagger.config';
 
 import * as basicAuth from "express-basic-auth";
 
