@@ -1,2 +1,3 @@
+import { ChangeServerSettingsHandler } from "./change-server-settings.handler";
 
-export const TeamspeakCommandHandlers = [];
+export const TeamspeakCommandHandlers = [ChangeServerSettingsHandler];

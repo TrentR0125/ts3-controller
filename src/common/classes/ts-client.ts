@@ -6,7 +6,7 @@ export class TsClient {
     static async connect(config: ConfigService) {
         tsClient = new TeamSpeak({
             host: config.get<string>("TS_HOST"),
-            queryport: 10001,
+            queryport: 10011,
             serverport: config.get<number>("TS_PORT"),
             username: config.get<string>("TS_USER"),
             password: config.get<string>("TS_PASS"),
