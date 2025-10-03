@@ -5,9 +5,9 @@ import { CommandBus, QueryBus } from "@nestjs/cqrs";
 import { GetUserQuery } from "../queries/get-user.query";
 import { CreateUserDTO } from "../dtos/create-user.dto";
 import { CreateUserCommand } from "../commands/create-user.command";
+import { RequireAuth } from "src/decorators/require-auth.decorator";
 
 @ApiTags("User")
-@ApiSecurity("x-tsc-apikey")
 @Controller("user")
 export class UserController {
     constructor(
@@ -16,12 +16,14 @@ export class UserController {
     ) {}
 
     @Post("create")
+    @RequireAuth(true)
     @ApiOkResponse({ type: User })
     async createUser(@Body() dto: CreateUserDTO): Promise<User> {
         return await this.commandBus.execute(new CreateUserCommand(dto));
     }
 
     @Get("get/:params")
+    @RequireAuth(true)
     @ApiOkResponse({ type: User  })
     @ApiOperation({ summary: "Get a user by any paramater (userId, email, and teamspeakId)" })
     async getUser(@Param("params") params: string): Promise<User> {

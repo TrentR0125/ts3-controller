@@ -4,8 +4,7 @@ import { CqrsModule } from '@nestjs/cqrs';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_GUARD } from '@nestjs/core';
-import { ApiKeyGuard } from './guards/api-key.guard';
-import { JwtGuard } from './guards/jwt-auth.guard';
+import { RequireAuthGuard } from './guards/require-auth.guard';
 import { AuthModule } from './modules/auth/auth.module';
 import { EventsModule } from './modules/events/events.module';
 import { TeamSpeakModule } from './modules/teamspeak/teamspeak.module';
@@ -36,8 +35,7 @@ import { TeamSpeakModule } from './modules/teamspeak/teamspeak.module';
     TeamSpeakModule
   ],
   providers: [
-    { provide: APP_GUARD, useClass: ApiKeyGuard },
-    { provide: APP_GUARD, useClass: JwtGuard },
+    { provide: APP_GUARD, useClass: RequireAuthGuard }
   ],
 })
 export class AppModule {}

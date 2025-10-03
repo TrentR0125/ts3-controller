@@ -1,7 +1,6 @@
 import { INestApplication } from "@nestjs/common";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
-
-import * as expAuth from "express-basic-auth";
+import { API_KEY_HEADER, JWT_TOKEN_HEADER } from "../classes/globals";
 
 export class SwaggerConfigSetup {
     static async setup(app: INestApplication) {
@@ -9,8 +8,8 @@ export class SwaggerConfigSetup {
         const config = new DocumentBuilder()
             .setTitle("TS3 Controller API")
             .setVersion("v1")
-            .addApiKey({ name: "x-tsc-apikey", type: "apiKey", in: "header" }, "x-tsc-apikey")
-            .addBearerAuth()
+            .addApiKey({ name: API_KEY_HEADER, type: "apiKey", in: "header" }, API_KEY_HEADER)
+            .addApiKey({ name: JWT_TOKEN_HEADER, type: "apiKey", in: "header" }, JWT_TOKEN_HEADER) // because bearer auth doesnt seem to want to cooperate with me 😡
             .build();
             
         const document = SwaggerModule.createDocument(app, config);
