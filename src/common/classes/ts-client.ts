@@ -1,8 +1,11 @@
+import { Logger, LoggerService } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { TeamSpeak } from "ts3-nodejs-library";
 
 export let tsClient: TeamSpeak;
 export class TsClient {
+    private static logger: Logger = new Logger("TsClient");
+
     static async connect(config: ConfigService) {
         tsClient = new TeamSpeak({
             host: config.get<string>("TS_HOST"),
@@ -14,7 +17,11 @@ export class TsClient {
         });
 
         tsClient.on("ready", () => {
-            // uhhhh do something cool
+            this.logger.log(`TeamSpeak Client \"${config.get<string>("TS_NICKNAME")}\" is online`);
+        });
+
+        tsClient.on("error", (error) => {
+            this.logger.error(`Could not start TeamSpeak Client. Error: ${error}`);
         });
     }
 }

@@ -7,6 +7,7 @@ import { SwaggerConfigSetup } from './common/configurations/swagger.config';
 
 import * as basicAuth from "express-basic-auth";
 import { API_KEY_HEADER, JWT_TOKEN_HEADER } from './common/classes';
+import { Logger } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);

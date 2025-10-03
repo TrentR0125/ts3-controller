@@ -7,11 +7,12 @@ import { TeamSpeakGateway } from "./gateways/teamspeak.gateway";
 import { CqrsModule } from "@nestjs/cqrs";
 import { TeamspeakCommandHandlers } from "./commands/handlers";
 import { TeamspeakQueryHandlers } from "./queries/handlers";
+import { TsConfig } from "./entities/ts-config.entity";
 
 @Module({
     imports: [
         CqrsModule,
-        TypeOrmModule.forFeature([Server])
+        TypeOrmModule.forFeature([Server, TsConfig])
     ],
     providers: [
         TeamSpeakService,

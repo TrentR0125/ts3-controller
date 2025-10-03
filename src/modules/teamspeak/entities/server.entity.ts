@@ -1,5 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { TsConfig } from "./ts-config.entity";
 
 @Entity({ name: "server" })
 export class Server {
@@ -42,4 +43,8 @@ export class Server {
     @ApiProperty({ type: Boolean, default: false })
     @Column({ type: 'boolean', default: false })
     fivemWhitelistEnabled: boolean;
+
+    @ApiProperty({ type: TsConfig })
+    @OneToOne(() => TsConfig, ts => ts.server, { eager: true })
+    tsConfig: TsConfig;
 }
