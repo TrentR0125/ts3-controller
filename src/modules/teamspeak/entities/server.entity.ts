@@ -42,7 +42,7 @@ export class Server {
 
     @ApiProperty({ type: Boolean, default: false })
     @Column({ type: 'boolean', default: false })
-    fivemWhitelistEnabled: boolean;
+    usePelicanOrPtero: boolean; // we have this here for pelican/pterodactyl integration
 
     @ApiProperty({ type: TsConfig })
     @OneToOne(() => TsConfig, ts => ts.server, { eager: true })

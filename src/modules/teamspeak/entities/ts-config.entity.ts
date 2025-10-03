@@ -8,6 +8,14 @@ export class TsConfig {
     @ApiProperty({ type: Number })
     serverId: number;
 
+    @ApiProperty({ type: Number, nullable: true, default: null })
+    @Column({ nullable: true, default: null })
+    quickAfkChannelId: number;
+
+    @ApiProperty({ type: Boolean, default: false })
+    @Column({ default: false })
+    antiVpnEnabled: boolean;
+
     @ApiProperty({ type: Server })
     @OneToOne(() => Server, s => s.serverId)
     @JoinColumn({ name: "serverId" })

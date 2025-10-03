@@ -5,6 +5,7 @@ import { RequireAuthGuard } from "src/guards/require-auth.guard";
 
 export const CHECK_API_KEY = 'REQUIRE_AUTH';
 export const CHECK_JWT_TOKEN = "CHECK_JWT_TOKEN";
+
 export const RequireAuth = (requireJwt: boolean = false) => {
     return applyDecorators(
         SetMetadata(CHECK_API_KEY, true),
