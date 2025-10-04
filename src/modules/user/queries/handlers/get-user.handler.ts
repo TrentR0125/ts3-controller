@@ -11,7 +11,7 @@ export class GetUserHandler implements IQueryHandler<GetUserQuery> {
         @InjectRepository(User) private userRepository: Repository<User>
     ) {}
 
-    async execute(query: GetUserQuery): Promise<User> {
+    async execute(query: GetUserQuery): Promise<User | User[]> {
         const param = query.userParam;
 
         if (!param) {
@@ -24,15 +24,16 @@ export class GetUserHandler implements IQueryHandler<GetUserQuery> {
             where.push({ userId: Number(param) });
         }
 
-        where.push({ email: String(param) })
+        where.push({ email: String(param) });
+        where.push({ name: String(param) });
         where.push({ teamspeakId: String(param) });
 
-        const user = await this.userRepository.findOne({ where });
+        const user = await this.userRepository.find({ where });
 
-        if (!user) {
+        if (!user || user.length == 0) {
             throw new NotFoundException();
         }
 
-        return user;
+        return user.length == 1 ? user[0] : user;
     }
 }

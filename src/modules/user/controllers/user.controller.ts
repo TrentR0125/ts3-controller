@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from "@nestjs/common";
+import { Body, Controller, Get, Param, Post, Request } from "@nestjs/common";
 import { User } from "../entities/user.entity";
 import { ApiOkResponse, ApiOperation, ApiProperty, ApiSecurity, ApiTags } from "@nestjs/swagger";
 import { CommandBus, QueryBus } from "@nestjs/cqrs";
@@ -6,6 +6,7 @@ import { GetUserQuery } from "../queries/get-user.query";
 import { CreateUserDTO } from "../dtos/create-user.dto";
 import { CreateUserCommand } from "../commands/create-user.command";
 import { RequireAuth } from "src/decorators/require-auth.decorator";
+import { JWT_TOKEN_HEADER } from "src/common/classes";
 
 @ApiTags("User")
 @Controller("user")
@@ -18,8 +19,8 @@ export class UserController {
     @Post("create")
     @RequireAuth(true)
     @ApiOkResponse({ type: User })
-    async createUser(@Body() dto: CreateUserDTO): Promise<User> {
-        return await this.commandBus.execute(new CreateUserCommand(dto));
+    async createUser(@Request() req, @Body() dto: CreateUserDTO): Promise<User> {
+        return await this.commandBus.execute(new CreateUserCommand(req.headers[JWT_TOKEN_HEADER], dto));
     }
 
     @Get("get/:params")

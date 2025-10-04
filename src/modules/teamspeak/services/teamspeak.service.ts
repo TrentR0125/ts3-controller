@@ -2,7 +2,6 @@ import { Injectable, NotFoundException } from "@nestjs/common";
 import { tsClient } from "src/common/classes";
 import { ServerSettings } from "src/common/interfaces";
 import { Server } from "../entities/server.entity";
-import { LogUtils } from "src/common/utils";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { CreateServerDto } from "../dtos/create-server.dto";
@@ -11,7 +10,6 @@ import { EditServerDto } from "../dtos/edit-server.dto";
 @Injectable()
 export class TeamSpeakService {
     constructor(
-        private log: LogUtils,
         @InjectRepository(Server)
         private serverRepository: Repository<Server>
     ) {}

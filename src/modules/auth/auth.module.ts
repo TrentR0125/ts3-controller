@@ -6,12 +6,12 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import { Log } from "src/modules/events/entities/log.entity";
 import { AuthController } from "src/modules/auth/controllers/auth.controller";
 import { AuthService } from "src/modules/auth/services/auth.service";
-import { ApiKeyStrategy } from "src/modules/auth/strategies/api-key.strategy";
 import { JwtStrategy } from "src/modules/auth/strategies/jwt.strategy";
 import { AuthCommandHandlers } from "./commands/handlers";
 import { CqrsModule } from "@nestjs/cqrs";
 import { AuthQueryHandlers } from "./queries/handlers";
 import { UserModule } from "../user/user.module";
+import { HttpModule } from "@nestjs/axios";
 
 @Module({
     imports: [
@@ -31,7 +31,6 @@ import { UserModule } from "../user/user.module";
     controllers: [AuthController],
     providers: [
         AuthService,
-        ApiKeyStrategy,
         JwtStrategy,
         ...AuthCommandHandlers,
         ...AuthQueryHandlers
