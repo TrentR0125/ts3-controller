@@ -1,4 +1,4 @@
-export class CreateServerDto {
+export class CreateServerDTO {
     serverName: string;
     serverIp: string;
     serverPort: number;

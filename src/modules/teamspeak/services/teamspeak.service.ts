@@ -4,8 +4,8 @@ import { ServerSettings } from "src/common/interfaces";
 import { Server } from "../entities/server.entity";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
-import { CreateServerDto } from "../dtos/create-server.dto";
-import { EditServerDto } from "../dtos/edit-server.dto";
+import { CreateServerDTO } from "../dtos/create-server.dto";
+import { EditServerDTO } from "../dtos/edit-server.dto";
 
 @Injectable()
 export class TeamSpeakService {
@@ -50,7 +50,7 @@ export class TeamSpeakService {
         return servers;
     }
 
-    async createServer(dto: CreateServerDto) {
+    async createServer(dto: CreateServerDTO) {
 
     }
 

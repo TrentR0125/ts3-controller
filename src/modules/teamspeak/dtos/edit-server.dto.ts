@@ -1,4 +1,4 @@
-export class EditServerDto {
+export class EditServerDTO {
     serverName: string;
     serverIp: string;
     serverPort: number;
