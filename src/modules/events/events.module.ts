@@ -1,6 +1,6 @@
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { Log } from "./entities/log.entity";
+import { Log } from "./entities/event.entity";
 import { CqrsModule } from "@nestjs/cqrs";
 import { EventsQueryHandlers } from "./queries/handlers";
 import { EventsCommandHandlers } from "./commands/handlers";

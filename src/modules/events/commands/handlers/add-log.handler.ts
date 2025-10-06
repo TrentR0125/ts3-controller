@@ -1,7 +1,7 @@
 import { CommandHandler, ICommandHandler } from "@nestjs/cqrs";
 import { AddLogCommand } from "../add-log.command";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Log } from "../../entities/log.entity";
+import { Log } from "../../entities/event.entity";
 import { Repository } from "typeorm";
 import { BadRequestException, Logger } from "@nestjs/common";
 import { LogLevel } from "src/common/enums/log-level.enum";

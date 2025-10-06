@@ -3,7 +3,7 @@ import { LogLevel } from "src/common/enums/log-level.enum";
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity({ name: "events" })
-export class Log {
+export class Event {
     @ApiProperty({ type: Number })
     @PrimaryGeneratedColumn({ type: 'integer' })
     eventId: number;
