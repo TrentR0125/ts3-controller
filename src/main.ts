@@ -8,10 +8,12 @@ import { SwaggerConfigSetup } from './common/configurations/swagger.config';
 import * as basicAuth from "express-basic-auth";
 import { API_KEY_HEADER, JWT_TOKEN_HEADER } from './common/classes';
 import { Logger } from '@nestjs/common';
+import { QueryBus } from '@nestjs/cqrs';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const config = app.get<ConfigService>(ConfigService);
+  const queryBus = app.get<QueryBus>(QueryBus);
 
   app.setGlobalPrefix("api");
   app.enableCors({
@@ -25,7 +27,7 @@ async function bootstrap() {
   }));
 
   SwaggerConfigSetup.setup(app);
-  await TsClient.connect(config);
+  await TsClient.connect(config, queryBus);
 
   await app.listen(config.get<number>("API_PORT") as number);
 }

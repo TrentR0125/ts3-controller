@@ -1,2 +1,3 @@
+import { GetServerHandler } from "./get-server.handler";
 
-export const TeamspeakQueryHandlers = [];
+export const TeamspeakQueryHandlers = [GetServerHandler];
