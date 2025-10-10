@@ -5,4 +5,6 @@ export class EditServerDTO {
     queryPort: number;
     queryName: string;
     queryPassword: string;
+    usingDiscordLogging: boolean;
+    discordWebhook?: string;
 }

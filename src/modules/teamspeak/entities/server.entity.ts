@@ -44,6 +44,17 @@ export class Server {
     @Column({ type: 'boolean', default: false })
     usePelicanOrPtero: boolean; // we have this here for pelican/pterodactyl integration
 
+    @ApiProperty({ type: String, nullable: true })
+    @Column({ type: 'varchar', nullable: true, default: null })
+    containerId: string; // we put null here due to "usePelicanOrPtero" being optional
+
+    @ApiProperty({ type: Boolean, default: false })
+    usingDiscordLogging: boolean; // should we put this in configService?
+
+    @ApiProperty({ type: String, default: null, nullable: true })
+    @Column({ type: 'varchar', nullable: true, default: null })
+    discordChannelWebhook: string;
+    
     @ApiProperty({ type: TsConfig })
     @OneToOne(() => TsConfig, ts => ts.server, { eager: true })
     tsConfig: TsConfig;

@@ -12,7 +12,7 @@ export class TeamSpeakService {
     constructor(
         @InjectRepository(Server)
         private serverRepository: Repository<Server>
-    ) {}
+    ) { }
 
     async getServerSettings(): Promise<ServerSettings> {
         return tsClient.serverInfo();
@@ -26,11 +26,19 @@ export class TeamSpeakService {
         return server;
     }
 
+    async getServerByContainerId(containerId: string): Promise<Server> {
+        const server = await this.serverRepository.findOne({ where: { containerId, usePelicanOrPtero: true } });
+        if (!server)
+            throw new NotFoundException('Server not found');
+
+        return server;
+    }
+
     async getServersByIp(serverIp: string): Promise<Server[]> {
         const servers = await this.serverRepository.find({ where: { serverIp } });
         if (!servers.length)
             throw new NotFoundException('Server(s) not found');
-        
+
         return servers;
     }
 
@@ -54,16 +62,29 @@ export class TeamSpeakService {
 
     }
 
-    // async changeServerSettings(serverId: number): Promise<ServerSettings> {
-        // need to finish this
-    // }
+    async updateServer(serverId: number, dto: EditServerDTO): Promise<Server> {
+        const server = await this.serverRepository.findOneBy({ serverId });
+        if (!server)
+            throw new NotFoundException('Server not found');
+
+        await this.serverRepository.update(serverId, {
+            serverIp: dto.serverIp,
+            serverPort: dto.serverPort,
+            queryName: dto.queryName,
+            queryPassword: dto.queryPassword,
+            usingDiscordLogging: dto.usingDiscordLogging
+        });
+
+        return server;
+    }
 
     async deleteServer(serverId: number) {
         const server = await this.serverRepository.findOneBy({ serverId });
         if (!server)
             throw new NotFoundException('Server not found');
-        
+
         const deletedServer = await this.serverRepository.update(serverId, { isDeleted: true });
         return deletedServer;
     }
+
 }
