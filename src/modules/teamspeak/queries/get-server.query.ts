@@ -1,4 +1,4 @@
 
 export class GetServerQuery {
-    constructor(public serverId: number) {}
+    constructor(public serverParam: string | number | boolean) {}
 }

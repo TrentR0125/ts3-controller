@@ -16,16 +16,16 @@ export class AuthController {
         private queryBus: QueryBus
     ) {}
 
-    @Get("userFromToken/:token")
-    @RequireAuth(true)
-    async getUserFromToken(@Param("token") token: string): Promise<User> {
-        return await this.queryBus.execute(new GetUserFromTokenQuery(token));
-    }
-
     @Post("sign-in")
     @RequireAuth()
     @ApiOkResponse({ type: String })
     async signIn(@Body() dto: SignInDTO): Promise<string> {
         return await this.commandBus.execute(new SignInCommand(dto.email, dto.password)) as string;
+    }
+
+    @Get("userFromToken/:token")
+    @RequireAuth(true)
+    async getUserFromToken(@Param("token") token: string): Promise<User> {
+        return await this.queryBus.execute(new GetUserFromTokenQuery(token));
     }
 }

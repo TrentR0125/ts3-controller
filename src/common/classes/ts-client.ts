@@ -9,7 +9,7 @@ export let tsClient: TeamSpeak;
 export class TsClient {
     private static logger: Logger = new Logger("TsClient");
 
-    static async connect(config: ConfigService, queryBus: QueryBus) {
+    static async connect(config: ConfigService) {
         tsClient = new TeamSpeak({
             host: config.get<string>("TS_HOST"),
             queryport: config.get<number>('TS_QUERY_PORT') || 10011,

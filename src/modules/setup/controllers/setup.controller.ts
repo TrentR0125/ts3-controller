@@ -1,5 +1,5 @@
 import { Body, Controller, Get, HttpCode, Post, Res } from "@nestjs/common";
-import { SetupService } from "./setup.service";
+import { SetupService } from "../services/setup.service";
 import { Response } from "express";
 import { join } from "path";
 

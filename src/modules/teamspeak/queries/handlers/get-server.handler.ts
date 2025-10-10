@@ -4,6 +4,7 @@ import { BadRequestException, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { Server } from "../../entities/server.entity";
+import { isBooleanObject } from "util/types";
 
 @QueryHandler(GetServerQuery)
 export class GetServerHandler implements IQueryHandler<GetServerQuery> {
@@ -11,19 +12,30 @@ export class GetServerHandler implements IQueryHandler<GetServerQuery> {
         @InjectRepository(Server) private serverRepository: Repository<Server> 
     ) {}
 
-    async execute(query: GetServerQuery): Promise<Server> {
-        const serverId = query.serverId;
-        
-        if (!serverId) {
-            throw new BadRequestException("Invalid Server ID");
-        }
-        
-        const server = await this.serverRepository.findOne({ where: { serverId }});
+    // i just took this from the get user query and slapped it on here 🤷
+    async execute(query: GetServerQuery): Promise<Server | Server[]> {
+        const param = query.serverParam;
 
-        if (!server) {
-            throw new NotFoundException("Server not found");
+        if (!param) {
+            throw new BadRequestException();
         }
 
-        return server;
+        const where: any[] = [];
+
+        if (!isNaN(Number(param))) {
+            where.push({ serverId: Number(param) });
+        }
+
+        where.push({ serverIp: String(param) });
+        where.push({ containerId: String(param) });
+        param == "true" ? where.push({ isDeleted: true }) : where.push({ isDeleted: false });
+
+        const server = await this.serverRepository.find({ where });
+
+        if (!server || server.length == 0) {
+            throw new NotFoundException();
+        }
+
+        return server.length == 1 ? server[0] : server;
     }
 }

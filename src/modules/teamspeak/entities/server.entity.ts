@@ -30,7 +30,7 @@ export class Server {
 
     @ApiProperty({ type: Date })
     @Column({ type: 'datetime', default: () => 'CURRENT_TIMESTAMP' })
-    createdAt: Date;
+    createdAt?: Date;
 
     @ApiProperty({ type: Date, nullable: true })
     @Column({ type: 'datetime', nullable: true })
@@ -38,24 +38,24 @@ export class Server {
 
     @ApiProperty({ type: Boolean, default: false })
     @Column({ type: 'boolean', default: false })
-    isDeleted: boolean;
+    isDeleted?: boolean;
 
     @ApiProperty({ type: Boolean, default: false })
     @Column({ type: 'boolean', default: false })
-    usePelicanOrPtero: boolean; // we have this here for pelican/pterodactyl integration
+    usePelicanOrPtero?: boolean; // we have this here for pelican/pterodactyl integration
 
     @ApiProperty({ type: String, nullable: true })
     @Column({ type: 'varchar', nullable: true, default: null })
-    containerId: string; // we put null here due to "usePelicanOrPtero" being optional
+    containerId?: string; // we put null here due to "usePelicanOrPtero" being optional
 
     @ApiProperty({ type: Boolean, default: false })
-    usingDiscordLogging: boolean; // should we put this in configService?
+    usingDiscordLogging?: boolean; // should we put this in configService?
 
     @ApiProperty({ type: String, default: null, nullable: true })
     @Column({ type: 'varchar', nullable: true, default: null })
-    discordChannelWebhook: string;
+    discordChannelWebhook?: string;
     
     @ApiProperty({ type: TsConfig })
     @OneToOne(() => TsConfig, ts => ts.server, { eager: true })
-    tsConfig: TsConfig;
+    tsConfig?: TsConfig;
 }

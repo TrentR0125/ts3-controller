@@ -1,6 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { SetupModule } from './setup/setup.module';
+import { SetupModule } from './modules/setup/setup.module';
 import { SwaggerModule } from '@nestjs/swagger';
 import { ConfigService } from '@nestjs/config';
 import { TsClient } from './common/classes/ts-client';
@@ -20,8 +20,10 @@ async function bootstrap() {
     Logger.log('TS3-Controller API Setup: .env not found. Launching setup wizard...');
 
     const setupApp = await NestFactory.create<NestExpressApplication>(SetupModule);
+    
     setupApp.useStaticAssets(path.join(process.cwd(), 'public'));
     setupApp.setGlobalPrefix('');
+
     await setupApp.listen(3000);
 
     Logger.log('Setup wizard running at http://localhost:3000/setup');
@@ -30,7 +32,6 @@ async function bootstrap() {
 
   const app = await NestFactory.create(AppModule);
   const config = app.get<ConfigService>(ConfigService);
-  const queryBus = app.get<QueryBus>(QueryBus);
 
   app.setGlobalPrefix("api");
   app.enableCors({
@@ -47,7 +48,7 @@ async function bootstrap() {
 
   SwaggerConfigSetup.setup(app);
 
-  await TsClient.connect(config, queryBus);
+  await TsClient.connect(config);
 
   const port = config.get<number>("API_PORT") || 3000;
   await app.listen(port);
