@@ -1,0 +1,602 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>TS3-Controller API Setup</title>
+
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.8/css/bootstrap.min.css"
+      integrity="sha512-2bBQCjcnw658Lho4nlXJcc6WkV/UxpE/sAokbXPxQNGqmNdQrWqtw26Ns9kFF/yG792pKR1Sx8/Y1Lf1XN4GKA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      body,
+      html {
+        height: 100%;
+        width: 100%;
+        background-color: #121212;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: 'Inter', sans-serif;
+      }
+      .card {
+        width: 100%;
+        max-width: 1100px; /* increase from 900px */
+        min-width: 600px; /* optional: ensure it doesn’t shrink too much on large screens */
+        padding: 2rem;
+        background-color: #1e1e1e;
+        color: #eee;
+        border-radius: 12px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      }
+      .form-control,
+      .form-select {
+        color: #ccc !important;
+      }
+      .form-control:focus {
+        background-color: #2a2a2a;
+        color: #eee;
+        border-color: #888;
+      }
+      .step {
+        display: none;
+      }
+      .step.active {
+        display: block;
+      }
+      .progress {
+        height: 8px;
+        border-radius: 8px;
+      }
+      .countdown {
+        font-size: 2.25rem;
+        font-weight: 700;
+      }
+      .pulse {
+        display: inline-block;
+        animation: pulse 1s infinite;
+      }
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
+          opacity: 1;
+        }
+        50% {
+          transform: scale(1.05);
+          opacity: 0.85;
+        }
+        100% {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+      .success-check {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #1abc9c, #16a085);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        margin: auto;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h4 class="card-title mb-1">TS3-Controller API Setup</h4>
+        <p class="text-muted">Complete the wizard to configure your API.</p>
+
+        <div class="mb-3">
+          <div class="progress">
+            <div
+              id="progress-bar"
+              class="progress-bar"
+              role="progressbar"
+              style="width: 0%"
+            ></div>
+          </div>
+        </div>
+
+        <form id="wizardForm" onsubmit="return false;">
+          <!-- API Configuration -->
+          <div class="step active" data-step="1">
+            <h5>API Configuration</h5>
+            <div class="row g-3">
+              <div class="col-md-4 mb-3">
+                <label class="form-label">API Environment</label>
+                <input
+                  name="API_ENV"
+                  class="form-control"
+                  value="development"
+                  required
+                />
+                <small class="form-text text-muted"
+                  >Environment of your API (development, staging,
+                  production).</small
+                >
+              </div>
+
+              <div class="col-md-4 mb-3">
+                <label class="form-label">API Host</label>
+                <input
+                  name="API_HOST"
+                  class="form-control"
+                  value="http://localhost:3000"
+                  required
+                />
+                <small class="form-text text-muted"
+                  >Base URL where your API will be accessible.</small
+                >
+              </div>
+
+              <div class="col-md-4 mb-3">
+                <label class="form-label">API Port</label>
+                <input
+                  name="API_PORT"
+                  class="form-control"
+                  value="3000"
+                  required
+                />
+                <small class="form-text text-muted"
+                  >Port number for the API server.</small
+                >
+              </div>
+
+              <div class="col-md-6 mb-3">
+                <label class="form-label">API Key</label>
+                <div class="input-group">
+                  <input
+                    name="API_KEY"
+                    class="form-control"
+                    placeholder="100-character random string"
+                    required
+                  />
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    onclick="this.previousElementSibling.value=generateRandomString()"
+                  >
+                    Generate
+                  </button>
+                </div>
+                <small class="form-text text-muted"
+                  >A key that can be used by external apps to access your API.
+                  Only apps that have this key can interact with your
+                  API.</small
+                >
+              </div>
+
+              <div class="col-md-6 mb-3">
+                <label class="form-label">JWT Secret</label>
+                <div class="input-group">
+                  <input
+                    name="JWT_SECRET"
+                    class="form-control"
+                    placeholder="100-character random string"
+                    required
+                  />
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    onclick="this.previousElementSibling.value=generateRandomString()"
+                  >
+                    Generate
+                  </button>
+                </div>
+                <small class="form-text text-muted"
+                  >A secret key used by the API to verify that users accessing
+                  it are allowed. Think of it like a password for your API. You
+                  don’t need to remember it—just generate it..</small
+                >
+              </div>
+            </div>
+          </div>
+
+          <!-- MySQL Configuration -->
+          <div class="step" data-step="2">
+            <h5>MySQL Configuration</h5>
+            <div class="row g-3">
+              <div class="col-md-3 mb-3">
+                <label class="form-label">MySQL Host</label>
+                <input
+                  name="MYSQL_HOST"
+                  class="form-control"
+                  value="localhost"
+                  required
+                />
+                <small class="form-text text-muted"
+                  >Hostname or IP of the MySQL server.</small
+                >
+              </div>
+              <div class="col-md-2 mb-3">
+                <label class="form-label">MySQL Port</label>
+                <input name="MYSQL_PORT" class="form-control" value="3306" />
+                <small class="form-text text-muted"
+                  >MySQL port (default 3306).</small
+                >
+              </div>
+              <div class="col-md-3 mb-3">
+                <label class="form-label">MySQL Username</label>
+                <input name="MYSQL_USER" class="form-control" value="root" />
+                <small class="form-text text-muted"
+                  >Username for MySQL connection.</small
+                >
+              </div>
+              <div class="col-md-4 mb-3">
+                <label class="form-label">MySQL Password</label>
+                <input
+                  name="MYSQL_PASSWORD"
+                  class="form-control"
+                  type="password"
+                  value="password"
+                  required
+                />
+                <small class="form-text text-muted"
+                  >Password for MySQL connection.</small
+                >
+              </div>
+              <div class="col-md-6 mb-3">
+                <label class="form-label">MySQL Database Name</label>
+                <input
+                  name="MYSQL_DATABASE"
+                  class="form-control"
+                  placeholder="database_name"
+                  required
+                />
+                <small class="form-text text-muted"
+                  >Database name the API will use.</small
+                >
+              </div>
+            </div>
+          </div>
+
+          <!-- Discord Configuration (optional) -->
+          <div class="step" data-step="3">
+            <h5>Discord OAuth (Optional)</h5>
+            <div class="row g-3">
+              <div class="col-md-4 mb-3">
+                <label class="form-label">Discord Client ID</label>
+                <input name="DISCORD_CID" class="form-control" />
+                <small class="form-text text-muted"
+                  >Client ID from Discord Developer Portal.</small
+                >
+              </div>
+              <div class="col-md-4 mb-3">
+                <label class="form-label">Discord Client Secret</label>
+                <input name="DISCORD_SECRET" class="form-control" />
+                <small class="form-text text-muted"
+                  >Client secret from Discord Developer Portal.</small
+                >
+              </div>
+              <div class="col-md-4 mb-3">
+                <label class="form-label">Discord Callback URL</label>
+                <input name="DISCORD_CALLBACK_URL" class="form-control" />
+                <small class="form-text text-muted"
+                  >OAuth2 redirect URL registered in your Discord app.</small
+                >
+              </div>
+            </div>
+          </div>
+
+          <!-- TeamSpeak Configuration -->
+          <div class="step" data-step="4">
+            <h5>TeamSpeak Settings</h5>
+            <div class="row g-3">
+              <div class="col-md-3 mb-3">
+                <label class="form-label">TeamSpeak Host</label>
+                <input
+                  name="TS_HOST"
+                  class="form-control"
+                  value="localhost"
+                  required
+                />
+                <small class="form-text text-muted"
+                  >TeamSpeak server hostname/IP.</small
+                >
+              </div>
+              <div class="col-md-3 mb-3">
+                <label class="form-label">TeamSpeak Server Port</label>
+                <input
+                  name="TS_PORT"
+                  class="form-control"
+                  value="9987"
+                  required
+                />
+                <small class="form-text text-muted"
+                  >Port for TeamSpeak client connections.</small
+                >
+              </div>
+              <div class="col-md-3 mb-3">
+                <label class="form-label">TeamSpeak Query Port</label>
+                <input
+                  name="TS_QUERY_PORT"
+                  class="form-control"
+                  value="10011"
+                  required
+                />
+                <small class="form-text text-muted"
+                  >ServerQuery port for admin access.</small
+                >
+              </div>
+              <div class="col-md-3 mb-3">
+                <label class="form-label">TeamSpeak Query Nickname</label>
+                <input
+                  name="TS_NICKNAME"
+                  class="form-control"
+                  value="TS3 Controller"
+                  required
+                />
+                <small class="form-text text-muted"
+                  >Nickname for connecting to TeamSpeak server.</small
+                >
+              </div>
+              <div class="col-md-6 mb-3">
+                <label class="form-label">TeamSpeak Username</label>
+                <input
+                  name="TS_USER"
+                  class="form-control"
+                  value="serveradmin"
+                  required
+                />
+                <small class="form-text text-muted"
+                  >ServerQuery username.</small
+                >
+              </div>
+              <div class="col-md-6 mb-3">
+                <label class="form-label">TeamSpeak Password</label>
+                <input
+                  name="TS_PASS"
+                  class="form-control"
+                  type="password"
+                  required
+                />
+                <small class="form-text text-muted"
+                  >ServerQuery password.</small
+                >
+              </div>
+            </div>
+          </div>
+
+          <!-- Summary -->
+          <div class="step" data-step="5">
+            <h5>Summary & Confirmation</h5>
+            <p class="text-muted">
+              Review the values below. Click <strong>No</strong> to go back and
+              edit, or <strong>Install</strong> to write the configuration.
+            </p>
+            <div
+              id="summaryCard"
+              class="card p-3 mb-3"
+              style="
+                white-space: pre-wrap;
+                font-family: monospace;
+                background-color: #2a2a2a;
+                color: #eee;
+              "
+            ></div>
+            <div class="form-check mb-3">
+              <input
+                id="confirmCheckbox"
+                class="form-check-input"
+                type="checkbox"
+              />
+              <label for="confirmCheckbox" class="form-check-label"
+                >I confirm these settings are correct</label
+              >
+            </div>
+          </div>
+
+          <div class="d-flex justify-content-between mt-3">
+            <div>
+              <button id="backBtn" class="btn btn-outline-secondary">
+                Back
+              </button>
+            </div>
+            <div>
+              <button id="nextBtn" class="btn btn-primary">Next</button>
+              <button
+                id="installBtn"
+                class="btn btn-success"
+                style="display: none"
+              >
+                Install
+              </button>
+            </div>
+          </div>
+        </form>
+
+        <!-- Success / Countdown -->
+        <div
+          id="successView"
+          style="display: none; text-align: center; margin-top: 20px"
+        >
+          <div class="success-check mb-3">
+            <svg
+              width="72"
+              height="72"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M20 6L9 17l-5-5"></path>
+            </svg>
+          </div>
+          <h3>TS3-Controller API has been officially setup!</h3>
+          <p class="text-muted">
+            Restarting the API in
+            <span id="countdown" class="countdown">3</span> ...
+          </p>
+          <p class="text-muted">
+            If your process manager does not auto-restart, please restart
+            manually.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.8/js/bootstrap.bundle.min.js"
+      integrity="sha512-HvOjJrdwNpDbkGJIG2ZNqDlVqMo77qbs4Me4cah0HoDrfhrbA+8SBlZn1KrvAQw7cILLPFJvdwIgphzQmMm+Pw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script>
+      (function () {
+        const steps = Array.from(document.querySelectorAll('.step'));
+        const total = steps.length;
+        let current = 0;
+
+        const progressBar = document.getElementById('progress-bar');
+        const backBtn = document.getElementById('backBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const installBtn = document.getElementById('installBtn');
+        const summaryCard = document.getElementById('summaryCard');
+        const confirmCheckbox = document.getElementById('confirmCheckbox');
+        const successView = document.getElementById('successView');
+        const countdownEl = document.getElementById('countdown');
+        const form = document.getElementById('wizardForm');
+
+        function showStep(index) {
+          steps.forEach((el, i) => el.classList.toggle('active', i === index));
+
+          progressBar.style.width = `${Math.round((index / (total - 1)) * 100)}%`;
+
+          backBtn.style.display = index === 0 ? 'none' : 'inline-block';
+
+          if (index === total - 1) {
+            nextBtn.style.display = 'none';
+            installBtn.style.display = 'inline-block';
+            renderSummary();
+          } else {
+            nextBtn.style.display = 'inline-block';
+            installBtn.style.display = 'none';
+          }
+        }
+
+        function validateStep() {
+          const requiredFields =
+            steps[current].querySelectorAll('input[required]');
+          for (const field of requiredFields) {
+            if (!field.value) {
+              alert(
+                `Please fill in "${field.previousElementSibling?.textContent || field.name}"`,
+              );
+              return false;
+            }
+          }
+          return true;
+        }
+
+        function collectData() {
+          const data = {};
+          form.querySelectorAll('input[name]').forEach((input) => {
+            data[input.name] = input.value;
+          });
+          return data;
+        }
+
+        function renderSummary() {
+          const data = collectData();
+          let out = '';
+          for (const k in data) {
+            let val = data[k] || '';
+            if (/password|pass|secret/i.test(k)) val = '••••••';
+            out += `${k}=${val}\n`;
+          }
+          summaryCard.textContent = out;
+        }
+
+        function startCountdown(seconds) {
+          let t = seconds;
+          countdownEl.textContent = t;
+          const iv = setInterval(() => {
+            t--;
+            countdownEl.textContent = t >= 0 ? t : 0;
+            if (t < 0) {
+              clearInterval(iv);
+              fetch('/setup/restart', { method: 'POST' }).catch(() => {});
+            }
+          }, 1000);
+        }
+
+        nextBtn.addEventListener('click', () => {
+          if (!validateStep()) return;
+          if (current < total - 1) {
+            current++;
+            showStep(current);
+          }
+        });
+
+        backBtn.addEventListener('click', () => {
+          if (current > 0) {
+            current--;
+            showStep(current);
+          }
+        });
+
+        installBtn.addEventListener('click', async () => {
+          if (!confirmCheckbox.checked) {
+            alert('Please confirm the settings by checking the box.');
+            return;
+          }
+
+          const data = collectData();
+
+          try {
+            nextBtn.disabled = true;
+            installBtn.disabled = true;
+
+            const resp = await fetch('/setup/apply', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(data),
+            });
+
+            if (!resp.ok) {
+              const txt = await resp.text();
+              throw new Error(txt || 'Failed to write .env');
+            }
+
+            form.style.display = 'none';
+            successView.style.display = 'block';
+            startCountdown(3);
+          } catch (err) {
+            alert('Error: ' + (err.message || err));
+            nextBtn.disabled = false;
+            installBtn.disabled = false;
+          }
+        });
+
+        window.generateRandomString = function (length = 100) {
+          const chars =
+            'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+          let result = '';
+          for (let i = 0; i < length; i++) {
+            result += chars.charAt(Math.floor(Math.random() * chars.length));
+          }
+          return result;
+        };
+
+        showStep(0);
+      })();
+    </script>
+  </body>
+</html>

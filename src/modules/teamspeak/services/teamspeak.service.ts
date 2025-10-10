@@ -84,7 +84,7 @@ export class TeamSpeakService {
             throw new NotFoundException('Server not found');
 
         const deletedServer = await this.serverRepository.update(serverId, { isDeleted: true });
-        return deletedServer;
+        return deletedServer; // should we change this to a hard delete?
     }
 
 }

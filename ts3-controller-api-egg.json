@@ -1,0 +1,110 @@
+{
+  "_comment": "TS3-Controller API Egg for Pterodactyl",
+  "name": "TS3-Controller API",
+  "description": "NestJS API with setup wizard for TeamSpeak and Discord integration",
+  "docker_image": "redmeanswar/ts3-controller-api:latest",
+  "startup": "node dist/main.js",
+  "stop": "kill -SIGINT {{PID}}",
+  "environment": {
+    "API_ENV": {
+      "description": "Environment the API runs in (development, production, etc.)",
+      "default": "production"
+    },
+    "API_PORT": {
+      "description": "Port the API listens on",
+      "default": "3000"
+    },
+    "API_HOST": {
+      "description": "Base URL of your API",
+      "default": "http://localhost:3000"
+    },
+    "MYSQL_HOST": {
+      "description": "MySQL server host",
+      "default": "localhost"
+    },
+    "MYSQL_PORT": {
+      "description": "MySQL server port",
+      "default": "3306"
+    },
+    "MYSQL_USER": {
+      "description": "MySQL user",
+      "default": "root"
+    },
+    "MYSQL_PASSWORD": {
+      "description": "MySQL password",
+      "default": ""
+    },
+    "MYSQL_DATABASE": {
+      "description": "Database name",
+      "default": ""
+    },
+    "DISCORD_CID": {
+      "description": "Discord Client ID",
+      "default": ""
+    },
+    "DISCORD_SECRET": {
+      "description": "Discord Client Secret",
+      "default": ""
+    },
+    "DISCORD_CALLBACK_URL": {
+      "description": "Discord OAuth2 callback URL",
+      "default": ""
+    },
+    "TS_HOST": {
+      "description": "TeamSpeak server host",
+      "default": "localhost"
+    },
+    "TS_PORT": {
+      "description": "TeamSpeak client port",
+      "default": "9987"
+    },
+    "TS_QUERY_PORT": {
+      "description": "TeamSpeak ServerQuery port",
+      "default": "10011"
+    },
+    "TS_USER": {
+      "description": "TeamSpeak ServerQuery username",
+      "default": "serveradmin"
+    },
+    "TS_PASS": {
+      "description": "TeamSpeak ServerQuery password",
+      "default": ""
+    },
+    "TS_NICKNAME": {
+      "description": "Nickname used by the API on TeamSpeak",
+      "default": "TS3 Controller"
+    }
+  },
+  "ports": [
+    {
+      "name": "API Port",
+      "container": 3000,
+      "default": 3000
+    }
+  ],
+  "volumes": [
+    {
+      "container": "/app/.env",
+      "description": "Persist your API configuration across restarts",
+      "default": ""
+    },
+    {
+      "container": "/app/public",
+      "description": "Wizard static assets (setup.html)",
+      "default": ""
+    }
+  ],
+  "startup_override": null,
+  "skip_scripts": false,
+  "scripts": {
+    "installation": null,
+    "pre_install": null,
+    "post_install": null
+  },
+  "egg_version": "1.0",
+  "feature_limits": {
+    "memory": 512,
+    "cpu": 1,
+    "disk": 500
+  }
+}

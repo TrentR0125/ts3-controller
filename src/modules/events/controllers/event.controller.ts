@@ -1,6 +1,6 @@
 import { Controller } from "@nestjs/common";
 
-@Controller('event')
-export class EventController {
+@Controller('log')
+export class LogController {
 
 }
