@@ -1,3 +1,4 @@
 export * from "./datetime.utilities";
 export * from "./hash.utilities";
-export * from "./string.utilties";
+export * from "./string.utilities";
+export * from "./boolean.utilities";

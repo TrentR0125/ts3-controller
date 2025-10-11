@@ -23,35 +23,30 @@ export async function dateToSeconds(date: Date): Promise<number> {
  * @returns A formatted string like "1 Year, 2 Months, 3 days, 4 hours, 5 minutes, 6 seconds"
  */
 export async function formatDuration(from: Date, to: Date): Promise<string> {
-    // Total difference in seconds
+    // total difference in seconds
     let delta = Math.floor((to.getTime() - from.getTime()) / 1000);
 
-    // Calculate years
+    // calculate years
     const years = Math.floor(delta / (365 * 24 * 60 * 60));
     delta -= years * 365 * 24 * 60 * 60;
 
-    // Calculate months (approximate 30 days per month)
+    // calculate months (approximate 30 days per month)
     const months = Math.floor(delta / (30 * 24 * 60 * 60));
     delta -= months * 30 * 24 * 60 * 60;
-
-    // Calculate days
-    const days = Math.floor(delta / (24 * 60 * 60));
+    
+    // calculate days
+    const days = Math.floor(delta / (24 * 60 * 60)); 
     delta -= days * 24 * 60 * 60;
 
-    // Calculate hours
+    // calculate hours
     const hours = Math.floor(delta / 3600);
     delta -= hours * 3600;
 
-    // Calculate minutes
-    const minutes = Math.floor(delta / 60);
+    const minutes = Math.floor(delta / 60); // calculate minutes
+    const seconds = delta % 60; // remaining seconds
+    const parts: string[] = []; // array to hold each time component as a string
 
-    // Remaining seconds
-    const seconds = delta % 60;
-
-    // Array to hold each time component as a string
-    const parts: string[] = [];
-
-    // Only include units that are non-zero
+    // only include units that are non-zero
     if (years) parts.push(`${years} Year${years > 1 ? 's' : ''}`);
     if (months) parts.push(`${months} Month${months > 1 ? 's' : ''}`);
     if (days) parts.push(`${days} day${days > 1 ? 's' : ''}`);
@@ -59,6 +54,6 @@ export async function formatDuration(from: Date, to: Date): Promise<string> {
     if (minutes) parts.push(`${minutes} minute${minutes > 1 ? 's' : ''}`);
     if (seconds) parts.push(`${seconds} second${seconds > 1 ? 's' : ''}`);
 
-    // Join all parts into a comma-separated string
+    // join all parts into a comma-separated string
     return parts.join(', ');
 }
