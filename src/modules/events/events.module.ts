@@ -4,6 +4,7 @@ import { Log } from "./entities/log.entity";
 import { CqrsModule } from "@nestjs/cqrs";
 import { EventsQueryHandlers } from "./queries/handlers";
 import { EventsCommandHandlers } from "./commands/handlers";
+import { LogService } from "./services/log.service";
 
 @Module({
     imports: [
@@ -12,6 +13,7 @@ import { EventsCommandHandlers } from "./commands/handlers";
     ],
     controllers: [],
     providers: [
+        LogService,
         ...EventsQueryHandlers,
         ...EventsCommandHandlers
     ]

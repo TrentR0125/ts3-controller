@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post } from "@nestjs/common";
 import { CommandBus, QueryBus } from "@nestjs/cqrs";
-import { ApiOkResponse, ApiSecurity, ApiTags } from "@nestjs/swagger";
+import { ApiOkResponse, ApiOperation, ApiSecurity, ApiTags } from "@nestjs/swagger";
 import { ServerSettings } from "src/common/interfaces";
 import { ChangeServerSettingsCommand } from "../commands/change-server-settings.command";
 import { ChangeSettingsDTO } from "../dtos/change-settings.dto";
@@ -15,6 +15,9 @@ import { UpdateServerCommand } from "../commands/update-server.command";
 import { CreateServerDTO } from "../dtos/create-server.dto";
 import { CreateServerCommand } from "../commands/create-server.command";
 import { DeleteServerCommand } from "../commands/delete-server.command";
+import { MoveClientDTO } from "../dtos/move-client.dto";
+import { MoveClientCommand } from "../commands/move-client.command";
+import { GetChannelIdQuery } from "../queries/get-channel-id.query";
 
 @ApiTags("TeamSpeak")
 @Controller('teamspeak')
@@ -23,6 +26,12 @@ export class TeamSpeakController {
         private commandBus: CommandBus,
         private queryBus: QueryBus
     ) {}
+    
+    @Post("moveClient")
+    @RequireAuth(true)
+    async moveClient(@Body() dto: MoveClientDTO): Promise<void> {
+        await this.commandBus.execute(new MoveClientCommand(dto));
+    }
 
     @Post("create")
     @RequireAuth(true)
@@ -46,6 +55,13 @@ export class TeamSpeakController {
     @RequireAuth(true)
     async changeServerSettings(@Body() settings: ChangeSettingsDTO): Promise<ServerSettings> {
         return await this.commandBus.execute(new ChangeServerSettingsCommand(settings));
+    }
+
+    @Get("getChannelId/:channelName")
+    @ApiOperation({ summary: "Get a channel's ID by the name of the channel" })
+    @RequireAuth(true)
+    async getChannelId(@Param("channelName") channelName: string): Promise<string> {
+        return await this.queryBus.execute(new GetChannelIdQuery(channelName));
     }
 
     @Get("get/:param")

@@ -13,43 +13,7 @@ import { LogLevel } from "src/common/enums";
 
 @Injectable()
 export class TeamSpeakService {
-    constructor(
-        @InjectRepository(Server)
-        private serverRepository: Repository<Server>,
-        private logService: LogService
-    ) { }
-
-    private configService = new ConfigService;
-
     async getServerSettings(): Promise<ServerSettings> {
         return tsClient.serverInfo();
-    }
-
-    async kickClientByUid(dto: KickByUniqueIdDTO) {
-        try {
-            const client = await tsClient.getClientByUid(dto.uniqueId);
-            if (!client)
-                throw new NotFoundException('Client not found');
-
-            if (dto.serverKick) {
-                client.kickFromServer(dto.reason);
-            } else {
-                client.kickFromChannel(dto.reason);
-            }
-
-            await this.logService.addLog({
-                source: 'TeamSpeakService',
-                logLevel: LogLevel.INFO,
-                message: `Successfully kicked client: ${client.nickname} (${client.clid})`,
-                loggedAt: new Date()
-            });
-        } catch (err) {
-            await this.logService.addLog({
-                source: 'TeamSpeakService',
-                logLevel: LogLevel.ERROR,
-                message: `Failed to kick client: ${err}`,
-                loggedAt: new Date()
-            });
-        }
     }
 }
