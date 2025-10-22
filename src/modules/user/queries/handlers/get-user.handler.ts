@@ -22,6 +22,7 @@ export class GetUserHandler implements IQueryHandler<GetUserQuery> {
 
         if (!isNaN(Number(param))) {
             where.push({ userId: Number(param) });
+            where.push({ userPin: Number(param) });
         }
 
         where.push({ email: String(param) });

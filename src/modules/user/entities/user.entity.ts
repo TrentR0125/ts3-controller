@@ -8,6 +8,10 @@ export class User {
     userId: number;
 
     @ApiProperty({ type: String })
+    @Column({ type: String, length: 4 })
+    userPin: string;
+
+    @ApiProperty({ type: String })
     @Column({ type: 'varchar' })
     name: string;
 

@@ -1,7 +1,7 @@
 
 export class SignInCommand {
     constructor(
-        public email: string,
+        public emailOrPin: string,
         public password: string
     ) {}
 }

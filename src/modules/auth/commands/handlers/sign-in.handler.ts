@@ -18,8 +18,8 @@ export class SignInHandler implements ICommandHandler<SignInCommand> {
     ) {}
 
     async execute(command: SignInCommand): Promise<string> {
-        const { email, password } = command;
-        const user = await this.queryBus.execute(new GetUserQuery(email)) as User;
+        const { emailOrPin, password } = command;
+        const user = await this.queryBus.execute(new GetUserQuery(emailOrPin)) as User;
 
         if (!user) {
             throw new NotFoundException('User not found');

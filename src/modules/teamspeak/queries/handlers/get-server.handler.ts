@@ -28,7 +28,6 @@ export class GetServerHandler implements IQueryHandler<GetServerQuery> {
 
         where.push({ serverIp: String(param) });
         where.push({ containerId: String(param) });
-        param == "true" ? where.push({ isDeleted: true }) : where.push({ isDeleted: false });
 
         const server = await this.serverRepository.find({ where });
 
