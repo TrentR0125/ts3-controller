@@ -1,4 +1,5 @@
 import { ChangeServerSettingsHandler } from "./change-server-settings.handler";
+import { ConnectHandler } from "./connect.handler";
 import { CreateServerHandler } from "./create-server.handler";
 import { DeleteServerHandler } from "./delete-server.command";
 import { KickByUniqueIdHandler } from "./kick-by-unique-id.handler";
@@ -11,5 +12,6 @@ export const TeamspeakCommandHandlers = [
     UpdateServerHandler,
     DeleteServerHandler,
     CreateServerHandler,
-    MoveClientHandler
+    MoveClientHandler,
+    ConnectHandler
 ];

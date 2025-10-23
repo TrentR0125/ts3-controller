@@ -21,8 +21,9 @@ export class RequireAuthGuard extends AuthGuard("jwt") implements CanActivate {
         const checkApiKey = this.reflector.get<boolean>(CHECK_API_KEY, handler);
         const checkJwt = this.reflector.get<boolean>(CHECK_JWT_TOKEN, handler);
 
-        if (checkApiKey)
+        if (checkApiKey) {
             return this.validateApiKeyAndToken(context, checkJwt);
+        }
 
         return true;
     }
@@ -31,22 +32,27 @@ export class RequireAuthGuard extends AuthGuard("jwt") implements CanActivate {
         const req = context.switchToHttp().getRequest<Request>();
         const apiKey = req.headers[API_KEY_HEADER] as string;
 
-        if (!apiKey || apiKey !== this.configService.get<string>('API_KEY'))
+        if (!apiKey || apiKey !== this.configService.get<string>('API_KEY')) {
             throw new UnauthorizedException('API key has been rejected or is not set');
+        }
 
-        if (checkJwt)
+        if (checkJwt) {
             return this.validateJwt(req.headers[JWT_TOKEN_HEADER] as string);
+        }
 
         return true;
     }
 
     private async validateJwt(token?: string): Promise<boolean> {
-        if (!token)
+        if (!token) {
             throw new UnauthorizedException('JWT is missing');
+        }
 
         const user = await this.queryBus.execute(new GetUserFromTokenQuery(token)) as User;
-        if (!user)
+        
+        if (!user) {
             throw new UnauthorizedException('JWT is invalid')
+        }
 
         return true;
     }

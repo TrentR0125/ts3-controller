@@ -5,13 +5,14 @@ import { CqrsModule } from "@nestjs/cqrs";
 import { EventsQueryHandlers } from "./queries/handlers";
 import { EventsCommandHandlers } from "./commands/handlers";
 import { LogService } from "./services/log.service";
+import { EventController } from "./controllers/event.controller";
 
 @Module({
     imports: [
         CqrsModule,
         TypeOrmModule.forFeature([Log])
     ],
-    controllers: [],
+    controllers: [EventController],
     providers: [
         LogService,
         ...EventsQueryHandlers,

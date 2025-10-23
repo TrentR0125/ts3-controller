@@ -18,6 +18,7 @@ import { DeleteServerCommand } from "../commands/delete-server.command";
 import { MoveClientDTO } from "../dtos/move-client.dto";
 import { MoveClientCommand } from "../commands/move-client.command";
 import { GetChannelIdQuery } from "../queries/get-channel-id.query";
+import { ConnectCommand } from "../commands/connect.command";
 
 @ApiTags("TeamSpeak")
 @Controller('teamspeak')
@@ -26,6 +27,13 @@ export class TeamSpeakController {
         private commandBus: CommandBus,
         private queryBus: QueryBus
     ) {}
+
+    @Post("connect")
+    @RequireAuth(true)
+    @ApiOkResponse()
+    async connect(@Body() body: any): Promise<void> {
+        await this.commandBus.execute(new ConnectCommand());
+    }
     
     @Post("moveClient")
     @RequireAuth(true)

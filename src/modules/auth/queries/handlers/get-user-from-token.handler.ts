@@ -19,8 +19,15 @@ export class GetUserFromTokenHandler implements IQueryHandler<GetUserFromTokenQu
             throw new UnauthorizedException("No token");
         }
 
-        const verify = this.jwtService.verify(token);
-        const user = await this.queryBus.execute(new GetUserQuery(verify.userId)) as User;
+        let payload: any;
+
+        try {
+            payload = this.jwtService.verify(token);
+        } catch {
+            //
+        }
+
+        const user = await this.queryBus.execute(new GetUserQuery(payload.userId)) as User;
 
         if (!user) {
             throw new NotFoundException("Could not find user attached to token");

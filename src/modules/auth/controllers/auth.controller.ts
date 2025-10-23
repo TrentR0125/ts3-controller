@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from "@nestjs/common";
+import { Body, Controller, Get, Param, Post, Request } from "@nestjs/common";
 import { CommandBus, QueryBus } from "@nestjs/cqrs";
 import { ApiOkResponse, ApiTags } from "@nestjs/swagger";
 import { hash } from "src/common/utils";
@@ -23,9 +23,9 @@ export class AuthController {
         return await this.commandBus.execute(new SignInCommand(dto.email, dto.password)) as string;
     }
 
-    @Get("userFromToken/:token")
+    @Get("userFromToken")
     @RequireAuth(true)
-    async getUserFromToken(@Param("token") token: string): Promise<User> {
-        return await this.queryBus.execute(new GetUserFromTokenQuery(token));
+    async getUserFromToken(@Request() req): Promise<User> {
+        return await this.queryBus.execute(new GetUserFromTokenQuery(req.headers["x-tsc-token"]));
     }
 }

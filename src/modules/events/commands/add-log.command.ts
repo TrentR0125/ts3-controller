@@ -1,5 +1,9 @@
 import { AddLogDTO } from "../dtos/add-log.dto";
 
 export class AddLogCommand {
-    constructor(public dto: AddLogDTO, public addToDb: boolean = false) {}
+    constructor(
+        public dto: AddLogDTO, 
+        public addToDb: boolean = false, 
+        public usingDiscord: boolean = false
+    ) {}
 }
